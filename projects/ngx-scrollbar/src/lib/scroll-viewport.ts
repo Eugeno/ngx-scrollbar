@@ -1,7 +1,7 @@
 import { Directive, Inject, ElementRef } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { fromEvent, merge, Observable, Observer } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { fromEvent, merge, Observable, Subscriber } from 'rxjs';
+import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { stopPropagation } from './scrollbar/common';
 
 @Directive({
@@ -53,6 +53,10 @@ export class ScrollViewport {
     return this.scrollHeight - this.clientHeight;
   }
 
+  get contentHeight(): number {
+    return this.contentWrapperElement.clientHeight;
+  }
+
   constructor(public viewPort: ElementRef,
               @Inject(DOCUMENT) private document: any) {
     this.nativeElement = viewPort.nativeElement;
@@ -61,18 +65,31 @@ export class ScrollViewport {
   /**
    * Activate viewport pointer events such as 'hovered' and 'clicked' events
    */
-  activatePointerEvents(): void {
-    this.hovered = new Observable((observer: Observer<any>) => {
+  activatePointerEvents(propagate: boolean, destroyed: Observable<void>): void {
+    this.hovered = new Observable((subscriber: Subscriber<boolean>) => {
       // Stream that emits when pointer is moved over the viewport (used to set the hovered state)
-      const mouseMove = fromEvent(this.nativeElement, 'mousemove', { passive: true }).pipe(stopPropagation());
+      const mouseMoveStream = fromEvent(this.nativeElement, 'mousemove', { passive: true });
+      const mouseMove = propagate ? mouseMoveStream : mouseMoveStream.pipe(stopPropagation());
       // Stream that emits when pointer leaves the viewport (used to remove the hovered state)
       const mouseLeave = fromEvent(this.nativeElement, 'mouseleave').pipe(map(() => false));
-      merge(mouseMove, mouseLeave).subscribe((e: false | any) => observer.next(e));
+      merge(mouseMove, mouseLeave).pipe(
+        tap((e: false | any) => subscriber.next(e)),
+        takeUntil(destroyed)
+      ).subscribe();
     });
 
-    this.clicked = new Observable((observer: Observer<any>) =>
-      fromEvent(this.nativeElement, 'mousedown', { passive: true }).subscribe((e: any) => observer.next(e))
-    );
+    this.clicked = new Observable((subscriber: Subscriber<any>) => {
+      const mouseDown = fromEvent(this.nativeElement, 'mousedown', { passive: true }).pipe(
+        tap((e: any) => subscriber.next(e))
+      );
+      const mouseUp = fromEvent(this.nativeElement, 'mouseup', { passive: true }).pipe(
+        tap(() => subscriber.next(false))
+      );
+      mouseDown.pipe(
+        switchMap(() => mouseUp),
+        takeUntil(destroyed)
+      ).subscribe();
+    });
   }
 
   /**
@@ -80,15 +97,17 @@ export class ScrollViewport {
    */
   setAsWrapper(): void {
     // In this case the default viewport and the default content wrapper will act as a mask
-    this.nativeElement.className = 'ng-scroll-offset ng-scroll-layer';
-    this.nativeElement.firstElementChild.className = 'ng-scroll-layer';
+    this.nativeElement.className = 'ng-native-scrollbar-hider ng-scroll-layer';
+    if (this.nativeElement.firstElementChild) {
+      this.nativeElement.firstElementChild.className = 'ng-scroll-layer';
+    }
   }
 
   /**
    * Set this directive as  the viewport, called when no custom viewport is used
    */
   setAsViewport(customClassName: string): void {
-    this.nativeElement.className = `ng-scroll-offset ng-scroll-viewport ${customClassName}`;
+    this.nativeElement.className = `ng-native-scrollbar-hider ng-scroll-viewport ${customClassName}`;
     // Check if the custom viewport has only one child and set it as the content wrapper
     if (this.nativeElement.firstElementChild) {
       this.contentWrapperElement = this.nativeElement.firstElementChild as HTMLElement;

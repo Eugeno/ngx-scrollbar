@@ -14,7 +14,9 @@ const defaultOptions: NgScrollbarOptions = {
   trackClickScrollDuration: 300,
   minThumbSize: 20,
   windowResizeDebounce: 0,
-  sensorDebounce: 0
+  sensorDebounce: 0,
+  scrollAuditTime: 0,
+  viewportPropagateMouseMove: true
 };
 
 @Injectable({ providedIn: 'root' })

@@ -12,8 +12,7 @@ export abstract class TrackAdapter {
       stopPropagation(),
       preventSelection(this.document)
     );
-
-    const mouseup = fromEvent(this.trackElement, 'mouseup', { passive: true }).pipe(
+    const mouseup = fromEvent(this.document, 'mouseup', { passive: true }).pipe(
       stopPropagation(),
       enableSelection(this.document),
       switchMap(() => EMPTY)
@@ -68,7 +67,6 @@ export abstract class TrackAdapter {
       }),
       // Smooth scroll to position
       tap((value: number) => {
-        console.log('scrollTo', value);
         this.cmp.scrollTo({
           ...this.mapToScrollToOption(value),
           duration: coerceNumberProperty(this.cmp.trackClickScrollDuration)

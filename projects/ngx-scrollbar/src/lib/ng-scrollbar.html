@@ -1,10 +1,10 @@
-<div class="ng-scrollbar-wrapper" [ngAttr]="state" [ngStyle]="autoHeightStyles">
+<div class="ng-scrollbar-wrapper" [ngAttr]="state">
   <div class="ng-scroll-viewport-wrapper"
-       resizeSensor
+       (resizeSensor)="update()"
        [sensorDebounce]="sensorDebounce"
        [sensorDisabled]="sensorDisabled">
     <div scrollViewport
-         [style]="nativeScrollbarSizeFactory.nativeScrollbarSize | async | cssVariable: 'native-scrollbar-size'">
+         [hideNativeScrollbar]="nativeScrollbarSizeFactory.scrollbarSize | async">
       <div>
         <ng-content></ng-content>
       </div>

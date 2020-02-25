@@ -17,15 +17,10 @@
   display: block;
   position: relative;
   height: 100%;
+  max-height: 100%;
+  max-width: 100%;
 
   > .ng-scrollbar-wrapper {
-    // Auto-height: height and width will be set from the content wrapper dynamically at runtime
-    height: 100%;
-    max-height: 100%;
-    min-height: 100%;
-    max-width: 100%;
-    min-width: 100%;
-
     --scrollbar-total-size: calc(var(--scrollbar-size) + var(--scrollbar-padding) * 2);
 
     // To enable the hover size, we need to calculate and set variable for each scrollbar
@@ -35,14 +30,14 @@
     --horizontal-scrollbar-total-size: calc(var(--horizontal-scrollbar-size) + var(--scrollbar-padding) * 2);
 
     // Change vertical scrollbar size in case its hovered or dragged
-    &[verticalDragging="true"], &[verticalHovered="true"] {
+    @include scrollbarYHovered {
       --vertical-scrollbar-size: var(--scrollbar-hover-size);
       --vertical-scrollbar-total-size: calc(var(--vertical-scrollbar-size) + var(--scrollbar-padding) * 2);
       cursor: default;
     }
 
     // Change horizontal scrollbar size in case its hovered or dragged
-    &[horizontalDragging="true"], &[horizontalHovered="true"] {
+    @include scrollbarXHovered {
       --horizontal-scrollbar-size: var(--scrollbar-hover-size);
       --horizontal-scrollbar-total-size: calc(var(--horizontal-scrollbar-size) + var(--scrollbar-padding) * 2);
       cursor: default;
@@ -54,14 +49,14 @@
       @include hoverVisibility;
     }
 
-    @include horizontalUsed {
+    @include scrollbarXUsed {
       @include viewport {
         overflow-x: auto;
         overflow-y: hidden;
       }
     }
 
-    @include verticalUsed {
+    @include scrollbarYUsed {
       @include viewport {
         overflow-y: auto;
         overflow-x: hidden;
@@ -88,7 +83,6 @@
 }
 
 .ng-scroll-viewport {
-  overscroll-behavior: contain contain;
   -webkit-overflow-scrolling: touch;
   contain: strict;
   will-change: scroll-position;

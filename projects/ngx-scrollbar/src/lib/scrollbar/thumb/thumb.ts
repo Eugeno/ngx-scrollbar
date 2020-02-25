@@ -41,10 +41,7 @@ export abstract class ThumbAdapter {
 
   // Stream that emits when scrollbar thumb is clicked
   get clicked(): Observable<any> {
-    return fromEvent(this.thumbElement, 'mousedown', { passive: true }).pipe(
-      stopPropagation(),
-      preventSelection(this.document)
-    );
+    return fromEvent(this.thumbElement, 'mousedown', { passive: true }).pipe(stopPropagation());
   }
 
   protected constructor(protected cmp: NgScrollbar,
@@ -54,7 +51,7 @@ export abstract class ThumbAdapter {
 
   // Calculate and update thumb position and size
   update() {
-    const size = calculateThumbSize(this.track.size, this.viewportScrollSize, this.cmp.minThumbSize);
+    const size = calculateThumbSize(this.track.size, this.viewportScrollSize, this.cmp.minThumbSize!);
     const position = calculateThumbPosition(this.viewportScrollOffset, this.viewportScrollMax, this.trackMax);
     animationFrameScheduler.schedule(() => this.updateStyles(this.handleDirection(position, this.trackMax), size));
   }

@@ -1,5 +1,37 @@
 # Changelog
 
+## 7.2.0
+
+- Feat: Ability to set `NgScrollbarModule.withConfig(options)` in [6fca314](https://github.com/MurhafSousli/ngx-scrollbar/pull/265/commits/6fca3146b802683a29ffd8e382c1ecca1d06a9e6).
+- Feat: Ability to propagate `mousemove` events of the viewport element, closes[#255](https://github.com/MurhafSousli/ngx-scrollbar/issues/255) in [d24804a](https://github.com/MurhafSousli/ngx-scrollbar/pull/265/commits/d24804a95ba54a8fdbf04c2a7fb734fb48122251).
+- Feat: Ability to use string value on boolean inputs in [752d715](752d715).
+- Fix: Fix ivy problem by using a directive instead of a pipe to set the CSS variable, closes [#217](https://github.com/MurhafSousli/ngx-scrollbar/issues/217) in [c43ca40](https://github.com/MurhafSousli/ngx-scrollbar/commit/c43ca404d0af9f78c12de9e8c485a289507f63f4).
+- Fix: Adjust hiding the native scrollbars on MacOS and Android in [0b590d7](https://github.com/MurhafSousli/ngx-scrollbar/pull/265/commits/0b590d78054cd1b9363ae46826413370749ce95a).
+- Fix: Fix compatibility with Angular material 9 in [a97f69f](https://github.com/MurhafSousli/ngx-scrollbar/commit/a97f69f0135f7612a69334667cc9d185327c22a9) and [3ce361f](https://github.com/MurhafSousli/ngx-scrollbar/commit/3ce361fdb058002c61664435860b175d216ea2a6).
+- Fix: Remove installation warning in Angular 9 in [d8080a7](https://github.com/MurhafSousli/ngx-scrollbar/commit/d8080a73d08fa23ef3d1366944e4b741bfc3c8b0)
+
+## 7.1.0
+
+- Feat: Add `scrollAuditTime` option to tweak performance when on a low framerate budget, closes [#245](https://github.com/MurhafSousli/ngx-scrollbar/issues/245) in [0e0bccb](https://github.com/MurhafSousli/ngx-scrollbar/pull/250/commits/0e0bccb7fb8e6131ddd3265490f002e66775c44b).
+- Fix: check options param for null values, closes [#247](https://github.com/MurhafSousli/ngx-scrollbar/issues/247) in [b3e67ed](https://github.com/MurhafSousli/ngx-scrollbar/commit/b3e67ed2c76af2b845569e45fe41df9b8d694522).
+- Fix: Production build fails with 'strictNullChecks' compiler option, closes [#219](https://github.com/MurhafSousli/ngx-scrollbar/issues/219) in [ac1a0d6](https://github.com/MurhafSousli/ngx-scrollbar/commit/ac1a0d6b197416e7ff186b54121f6b9d3e436914).
+
+## 7.0.2
+
+- Fix: Remove `scroll-behavior` CSS rule, closes [#242](https://github.com/MurhafSousli/ngx-scrollbar/issues/242) in [6b89d6f](https://github.com/MurhafSousli/ngx-scrollbar/commit/6b89d6fe72933b83681fedce826385d7f6932fef).
+- Fix: fix auto-height update, closes [#243](https://github.com/MurhafSousli/ngx-scrollbar/issues/243) in [7cac0fb](https://github.com/MurhafSousli/ngx-scrollbar/commit/7cac0fb6ff45943bb99f9cad37979d949e2cb5c7).
+
+## 7.0.1
+
+- Fix: Scrollbar breaks when loading on mobile, closes [#236](https://github.com/MurhafSousli/ngx-scrollbar/issues/236) in [33dfa71](https://github.com/MurhafSousli/ngx-scrollbar/commit/33dfa7169ab73ed404ff144ae1f187c75e5b9f7f).
+- Update package dependencies in [9523194](https://github.com/MurhafSousli/ngx-scrollbar/pull/237/commits/95231944850f0db3873d50abc04bafb085db774b).
+
+## 7.0.0
+
+- Fix: auto-height feature in [aa16191](https://github.com/MurhafSousli/ngx-scrollbar/pull/234/commits/aa1619111be7b8769b1e909d0ef90a5ef43dfe61) and [0560af2](https://github.com/MurhafSousli/ngx-scrollbar/pull/235/commits/0560af2883a48b112b89a7a2369f29ef693783b0).
+- Enhance: Prevent selection on track click, in [529450f](https://github.com/MurhafSousli/ngx-scrollbar/pull/235/commits/529450f756bae9cf080f45154034482ec813b8df) and [4f66fd2](https://github.com/MurhafSousli/ngx-scrollbar/pull/235/commits/4f66fd29d4220904dd4024202d2dc3b6c0eb0608).
+- Enhance: Make sure viewport pointer-events are cleaned up on destroy, in [4b909f6](https://github.com/MurhafSousli/ngx-scrollbar/pull/235/commits/4b909f64346518eef26e9bd8b1d04d7244a5a190).
+
 ## 7.0.0-beta.0
 
 - Feat: Add `[pointerEventsMethod]="viewport | scrollbar"` option, this sets the method used for detecting scrollbar pointer events, closes [#216](https://github.com/MurhafSousli/ngx-scrollbar/issues/216) in [c552e60](https://github.com/MurhafSousli/ngx-scrollbar/pull/228/commits/c552e6009b27bae7c5c01a5b6e9d82eee029f978).
